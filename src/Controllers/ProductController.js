@@ -25,13 +25,21 @@ const ProductModel = require('../Models/ProductModel');
       } catch (e) {
         return res.status(404).json({ error: e, message: "Error product ID!" })
       }
-  }
+    }
 
-  async update() {
-  }
+    async update(req, res) {
+      try {
+        const { id } = req.params; 
+        await ProductModel.findByIdAndUpdate(id, req.body);
+        return res.status(200).json({ message: "Product Updated!" })
 
-  async destroy() {
+      } catch (e) {
+        return res.status(404).json({ message: "Failed to update product!" })
+      }
+    }
+
+    async destroy() {
+    }
   }
-}
 
 module.exports = new ProductController();
