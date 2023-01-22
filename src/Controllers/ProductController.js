@@ -3,6 +3,12 @@ const ProductModel = require('../Models/ProductModel');
   class ProductController {
     async store(req, res) {
       const { title, description, price } = req.body;
+      const productAlreadyExists = await ProductModel.findOne({ title });
+
+      if(productAlreadyExists) {
+        return res.status(400).json({ message: "This name already exists!" })
+      }
+
       if (!title || !description || !price){
         return res.status(404).json({ message: "Title, description and price must be filled!" }) 
       }
